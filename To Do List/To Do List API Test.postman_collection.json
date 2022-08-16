@@ -1,0 +1,741 @@
+{
+	"info": {
+		"_postman_id": "07759cb5-ee1f-454e-acea-66133ac408c9",
+		"name": "To Do List API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add To Do",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 201', () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('message');\r",
+							"    pm.expect(responseJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responseJson.status).to.equals('success');\r",
+							"    pm.expect(responseJson.message).to.equals('Sukses menambahkan To Do');\r",
+							"    pm.expect(responseJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data should contain bookId', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('toDoId');\r",
+							"    pm.expect(data.toDoId).to.not.equals('');\r",
+							"\r",
+							"    pm.environment.set('toDoId', data.toDoId);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Membaca\",\r\n    \"description\": \"Membaca buku di Perpustakaan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add To Do Without Title",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('status');\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('message');\r",
+							"\r",
+							"    pm.expect(responseJSON.status).to.equals('fail');\r",
+							"    pm.expect(responseJSON.message).to.equals('Gagal menambahkan To Do. Isi title To Do terlebih dahulu');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"\",\r\n    \"description\": \"Membaca buku di Perpustakaan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add To Do Without Description",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have correct property and value', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('status');\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('message');\r",
+							"\r",
+							"    pm.expect(responseJSON.status).to.equals('fail');\r",
+							"    pm.expect(responseJSON.message).to.equals('Gagal menambahkan To Do. Isi description To Do terlebih dahulu');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Menulis\",\r\n    \"description\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All To Do",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body object should have correct property and value', () => {\r",
+							"    const responsJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responsJson.status).to.equals('success');\r",
+							"    pm.expect(responsJson.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data object should have a array To Do List and contains one items', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							"\r",
+							"    pm.expect(data).to.haveOwnProperty('todoList');\r",
+							"    pm.expect(data.todoList).to.be.an('array');\r",
+							"    pm.expect(data.todoList).to.lengthOf(1);\r",
+							"});\r",
+							"\r",
+							"pm.test('the To Do List should have contains only id, title, and description property', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data: { todoList } } = responseJson;\r",
+							"\r",
+							"    todoList.forEach((todo) => {\r",
+							"        pm.expect(Object.keys(todo)).to.lengthOf(3);\r",
+							"        pm.expect(todo).to.haveOwnProperty('id');\r",
+							"        pm.expect(todo).to.haveOwnProperty('title');\r",
+							"        pm.expect(todo).to.haveOwnProperty('description');\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Specified To Do",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response status code should have 200 value', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response Content-Type header should have application/json value', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJSON).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have the correct property and value', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('status');\r",
+							"    pm.expect(responseJSON.status).to.be.equals('success');\r",
+							"\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('data');\r",
+							"    pm.expect(responseJSON.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data should contain To Do List object', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"    const { data } = responseJSON;\r",
+							"\r",
+							"    pm.expect(data).to.have.ownProperty('todoList');\r",
+							"    pm.expect(data.todoList).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('To Do List object should contain correct value for id, title, description property', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"    const { data: { todoList } } = responseJSON;\r",
+							"\r",
+							"    const expectedId = pm.environment.get('toDoId');\r",
+							"    const expectedTitle = 'Membaca';\r",
+							"    const expectedDescription = 'Membaca buku di Perpustakaan';\r",
+							"\r",
+							"    pm.expect(todoList).to.have.ownProperty('id');\r",
+							"    pm.expect(todoList.id).to.equals(expectedId);\r",
+							"\r",
+							"    pm.expect(todoList).to.have.ownProperty('title');\r",
+							"    pm.expect(todoList.title).to.equals(expectedTitle);\r",
+							"\r",
+							"    pm.expect(todoList).to.have.ownProperty('description');\r",
+							"    pm.expect(todoList.description).to.equals(expectedDescription);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist/{{toDoId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist",
+						"{{toDoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Getting Specified To Do",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response status code should have 200 value', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response Content-Type header should have application/json value', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJSON).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have the correct property and value', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('status');\r",
+							"    pm.expect(responseJSON.status).to.be.equals('success');\r",
+							"\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('data');\r",
+							"    pm.expect(responseJSON.data).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body data should contain To Do List object', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"    const { data } = responseJSON;\r",
+							"\r",
+							"    pm.expect(data).to.have.ownProperty('todoList');\r",
+							"    pm.expect(data.todoList).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('To Do List object should contain correct value for id, title, description property', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"    const { data: { todoList } } = responseJSON;\r",
+							"\r",
+							"    const expectedId = pm.environment.get('toDoId');\r",
+							"    const expectedTitle = 'Membaca';\r",
+							"    const expectedDescription = 'Membaca buku di Perpustakaan';\r",
+							"\r",
+							"    pm.expect(todoList).to.have.ownProperty('id');\r",
+							"    pm.expect(todoList.id).to.equals(expectedId);\r",
+							"\r",
+							"    pm.expect(todoList).to.have.ownProperty('title');\r",
+							"    pm.expect(todoList.title).to.equals(expectedTitle);\r",
+							"\r",
+							"    pm.expect(todoList).to.have.ownProperty('description');\r",
+							"    pm.expect(todoList.description).to.equals(expectedDescription);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist/{{toDoId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist",
+						"{{toDoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update To Do",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response status code should have 200 value', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response Content-Type header should have application/json value', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJSON).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have the correct property and value', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('status');\r",
+							"    pm.expect(responseJSON.status).to.be.equals('success');\r",
+							"\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('message');\r",
+							"    pm.expect(responseJSON.message).to.be.equals('To Do berhasil diperbarui');\r",
+							"    \r",
+							"});\r",
+							"\r",
+							"pm.test('when request the updated To Do', () => {\r",
+							"    const toDoId = pm.environment.get('toDoId');\r",
+							"    const port = pm.environment.get('port');\r",
+							"    pm.sendRequest(`http://localhost:${port}/todolist/${toDoId}`, (error, response) => {\r",
+							"        if(!error){\r",
+							"            pm.test('then the updated note should contain the latest data', () => {\r",
+							"                const responseJSON = response.json();\r",
+							"                const {data: { todoList } } = responseJSON;\r",
+							"                \r",
+							"                const expectedId = toDoId;\r",
+							"                const expectedTitle = \"Menulis\";\r",
+							"                const expectedDescription = \"Menulis teks asli di Perpustakaan\"\r",
+							"\r",
+							"                pm.expect(todoList).to.have.ownProperty('id');\r",
+							"                pm.expect(todoList.id).to.equals(expectedId);\r",
+							"\r",
+							"                pm.expect(todoList).to.have.ownProperty('title');\r",
+							"                pm.expect(todoList.title).to.equals(expectedTitle);\r",
+							"\r",
+							"                pm.expect(todoList).to.have.ownProperty('description');\r",
+							"                pm.expect(todoList.description).to.equals(expectedDescription);\r",
+							"            });\r",
+							"        }\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Menulis\",\r\n    \"description\": \"Menulis teks asli di Perpustakaan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist/{{toDoId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist",
+						"{{toDoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete To Do List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('response status code should have 200 value', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response Content-Type header should have application/json value', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJSON).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should have the correct property and value', () => {\r",
+							"    const responseJSON = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('status');\r",
+							"    pm.expect(responseJSON.status).to.be.equals('success');\r",
+							"\r",
+							"    pm.expect(responseJSON).to.have.ownProperty('message');\r",
+							"    pm.expect(responseJSON.message).to.be.equals('To Do Berhasil dihapus');\r",
+							"});\r",
+							"\r",
+							"pm.test('when request the deleted To Do', () => {\r",
+							"    const toDoId = pm.environment.get('toDoId');\r",
+							"    const port = pm.environment.get('port');\r",
+							"    pm.sendRequest(`http://localhost:${port}/todolist/${toDoId}`, (error, response) => {\r",
+							"        if(!error){\r",
+							"            pm.test('the deleted To Do should not be found', () => {\r",
+							"                pm.expect(response.code).to.equals(404);\r",
+							"\r",
+							"                const responseJSON = response.json();\r",
+							"                pm.expect(responseJSON.status).to.equals('fail');\r",
+							"                pm.expect(responseJSON.message).to.equals('To Do tidak ditemukan');\r",
+							"            });\r",
+							"        }\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist/{{toDoId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist",
+						"{{toDoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add To Do For Search 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Membaca Teks Asli\",\r\n    \"description\": \"Membaca teks asli di Perpustakaan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add To Do For Search 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Tes Baca\",\r\n    \"description\": \"Testing Baca\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add To Do For Search 3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Menulis Teks Palsu\",\r\n    \"description\": \"Menulis teks palsu di Perpustakaan\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Search Title",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code should be 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('response header Content-Type should be application/json', () => {\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body should be an object', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('response body object should have correct property and value', () => {\r",
+							"    const responsJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('status');\r",
+							"    pm.expect(responsJson).to.haveOwnProperty('data');\r",
+							"\r",
+							"    pm.expect(responsJson.status).to.equals('success');\r",
+							"    pm.expect(responsJson.data).to.be.an('object');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/todolist?title=membaca",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"todolist"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "membaca"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
